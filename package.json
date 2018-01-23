@@ -1,0 +1,40 @@
+{
+    "name": "take-a-hike-node-capstone",
+    "version": "1.0.0",
+    "description": "Search hikes by location and add them to you upcoming trip",
+    "main": "server.js",
+    "dependencies": {
+        "bcrypt": "^0.8.7",
+        "bcryptjs": "^2.3.0",
+        "body-parser": "^1.15.2",
+        "express": "^4.14.0",
+        "mongodb": "^2.2.9",
+        "mongoose": "^4.5.10",
+        "passport": "^0.3.2",
+        "passport-http": "^0.3.0",
+        "unirest": "^0.5.1"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "chai-http": "^3.0.0",
+        "faker": "^3.1.0",
+        "mocha": "^3.2.0"
+    },
+    "engines": {
+        "node": "^8.2.1"
+    },
+    "scripts": {
+        "test": "mocha",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pelosirm/take-a-hike-node-capstone.git"
+    },
+    "author": "Riley Pelosi",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/pelosirm/take-a-hike-node-capstone/issues"
+    },
+    "homepage": "https://github.com/pelosirm/take-a-hike-node-capstone#readme"
+}
