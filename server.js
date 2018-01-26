@@ -5,6 +5,9 @@ const {
     Trip
 } = require('./models/models.js');
 const mongoose = require('mongoose');
+const events = require('events');
+const https = require('https');
+const unirest = require('unirest');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const bcrypt = require('bcryptjs');
@@ -52,6 +55,73 @@ function closeServer() {
         });
     }));
 }
+
+// exteral API call functions
+
+//get coordinates
+
+let getCoordinates = function (location) {
+
+    let options = {
+        host: 'maps.googleapis.com',
+        path: '/maps/api/geocode/json?address=' + location + '&key=AIzaSyCVzoNkzkIo8VFN-_0dI0sIs5JuED8EPpE',
+        method: 'GET',
+        headers: {
+            'Content-Type': "application/json",
+            'Port': 443
+        }
+    };
+
+    https.get(options, function (res) {
+        let body = '';
+        let location = {}
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+        res.on('end', function () {
+            body = JSON.parse(body);
+            location = body.results[0].geometry.location;
+            getHikes(location);
+        })
+
+    })
+
+};
+
+let getHikes = function (coordinates) {
+
+    let options = {
+        host: 'www.hikingproject.com',
+        path: '/data/get-trails?lat=' + coordinates.lat + '&lon=' + coordinates.lng + '&maxDistance=10&key=200208774-24dfee334bb22d6484c0a63d8884816d',
+        method: 'GET',
+        headers: {
+            'Content-Type': "application/json",
+            'Port': 443
+        }
+    };
+
+    https.get(options, function (res) {
+        let body = '';
+
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+        res.on('end', function () {
+            body = JSON.parse(body);
+            console.log(body)
+            return body;
+        })
+    })
+
+}
+
+app.get('/hikes/:location', (req, res) => {
+    console.log(req.params.location);
+    let location = req.params.location;
+    console.log(getCoordinates(location));
+    res.json('return');
+
+})
 
 app.use('*', (req, res) => {
     res.status(404).json({
