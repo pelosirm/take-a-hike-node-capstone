@@ -72,18 +72,20 @@ let getCoordinates = function (location) {
         }
     };
 
-    https.get(options, function (res) {
-        let body = '';
-        let location = {}
-        res.on('data', function (chunk) {
-            body += chunk;
-        });
-        res.on('end', function () {
-            body = JSON.parse(body);
-            location = body.results[0].geometry.location;
-            getHikes(location);
-        })
+    return new Promise(function (resolve, reject) {
+        https.get(options, function (res) {
+            let body = '';
+            let location = {}
+            res.on('data', function (chunk) {
+                body += chunk;
+            });
+            res.on('end', function () {
+                body = JSON.parse(body);
+                location = body.results[0].geometry.location;
+                resolve(getHikes(location));
+            })
 
+        })
     })
 
 };
@@ -99,27 +101,31 @@ let getHikes = function (coordinates) {
             'Port': 443
         }
     };
+    return new Promise(function (resolve, reject) {
+        https.get(options, function (res) {
+            let body = '';
 
-    https.get(options, function (res) {
-        let body = '';
-
-        res.on('data', function (chunk) {
-            body += chunk;
-        });
-        res.on('end', function () {
-            body = JSON.parse(body);
-            console.log(body)
-            return body;
+            res.on('data', function (chunk) {
+                body += chunk;
+            });
+            res.on('end', function () {
+                body = JSON.parse(body);
+                resolve(body)
+            })
         })
     })
-
 }
+
+
 
 app.get('/hikes/:location', (req, res) => {
     console.log(req.params.location);
     let location = req.params.location;
-    console.log(getCoordinates(location));
-    res.json('return');
+    let dataPromise = getCoordinates(location);
+    dataPromise.then(function (results) {
+        res.json(results.trails)
+    })
+
 
 })
 

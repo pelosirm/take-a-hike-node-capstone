@@ -7,7 +7,7 @@ function getHikeCoordinates(location) {
             dataType: "json"
         })
         .done(function (results) {
-            console.log('results from server' + results);
+            console.log(results);
         })
         .fail(function (jxhqr, error, errorThrown) {
             console.log(jxhqr);
