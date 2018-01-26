@@ -31,7 +31,6 @@ html {
     left: 40%;
     width: 60%;
     height: 100%;
-    background-color: black;
     background-color: rgba(0, 0, 0, 0.5)
 }
 
@@ -164,17 +163,18 @@ a:hover {
 .search-results {
     margin-right: 10%;
     margin-left: 10%;
-    margin-top: 150px;
+    margin-top: 100px;
+}
+
+.search-results h1 {
+    color: black;
+    margin-bottom: 25px;
 }
 
 .hike {
     width: 100%;
-}
-
-.hike-img-text {
-    position: relative;
-    text-align: center;
-    color: white;
+    height: 400px;
+    margin-bottom: 20px;
 }
 
 #map {
@@ -183,24 +183,238 @@ a:hover {
     float: right;
 }
 
-.hike-img-text img {
+.hike-img-text {
+    position: relative;
+    text-align: center;
     width: 50%;
+}
+
+
+.hike-img-text img {
+    width: 100%;
     height: 400px;
     float: left;
 }
 
 .text-content {
     position: absolute;
-    margin-top: 130px;
-    top: 15%;
-    left: 15%;
-    transform: translate(-15%, -15%);
+}
+
+.more-info {
+    position: absolute;
+    font-family: 'Barlow', sans-serif;
+    width: 100%;
+    top: 300px;
+    padding: 15px;
+    background-color: rgba(35, 207, 255, .5);
+}
+
+.more-info a {
+    padding: 15px;
+    color: white;
 }
 
 .text-content p {
-    color: #23CFFF;
-    font-weight: 200;
+    color: white;
+    font-weight: 500;
 
+}
+
+.hike-name {
+    font-weight: 500;
+}
+
+.my-trips {
+    width: 100%;
+    height: 300px;
+}
+
+.trip {
+    background: red;
+    height: 250px;
+    margin: 10px;
+    position: relative;
+}
+
+.trip-name {
+    position: absolute;
+    color: white;
+    font-family: 'Barlow', sans-serif;
+    font-size: 3em;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hidden-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+    line-height: 1em;
+    max-height: 3em;
+}
+
+.remove {
+    position: absolute;
+    height: 30px;
+    width: 100%;
+    top: 200px;
+    text-align: center;
+    margin-left: -10px;
+    background: blue;
+}
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 100%;
+    height: 100%
+}
+
+/* The Close Button */
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    margin-right: 50px;
+    font-size: 80px;
+    font-weight: bold;
+    display: block;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.center-on-page {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+}
+
+.modal-content h1,
+p {
+    color: black;
+}
+
+.modal-content p {
+    text-align: left;
+    margin-left: 0px;
+    line-height: 10px;
+}
+
+/* Reset Select */
+
+select
+/*,.modal-content input[type="text"] {*/
+
+    {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #23CFFF;
+    background-image: none;
+}
+
+/* Custom Select */
+
+.select
+/*,.modal-content input[type="text"] {*/
+
+    {
+    position: relative;
+    display: block;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    overflow: hidden;
+    border-radius: .25em;
+}
+
+select {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 .10em .5em;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 100;
+    font-family: 'Barlow', sans-serif;
+    cursor: pointer;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+/* Arrow */
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1em;
+    background: #188DAD;
+    pointer-events: none;
+}
+
+/* Transition */
+
+.select:hover::after {
+    color: #f39c12;
+}
+
+.select::after {
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+}
+
+.modal-content input[type="text"] {
+    height: 3em;
+}
+
+.modal-content input[type="submit"] {
+    background-color: #f39c12;
+}
+
+.modal-content input[type="text"]::-webkit-input-placeholder,
+.modal-content input[type="text"]:-moz-placeholder,
+.modal-content input[type="text"]::-moz-placeholder,
+.modal-content input[type="text"]:-ms-input-placeholder {
+    color: white !important;
 }
 
 
@@ -231,16 +445,29 @@ a:hover {
         float: left;
     }
 
-    .text-content {
-        position: relative;
-        float: right;
-        top: 0;
-        left: 15%;
+    .hike-img-text {
+        width: 100%;
     }
 
     #map {
         position: relative;
         width: 100%;
         float: right;
+    }
+
+    .text-content {
+        position: absolute;
+        width: 100%;
+        margin-top: 90px;
+        left: -30px;
+    }
+
+    .more-info {
+        position: absolute;
+        font-family: 'Barlow', sans-serif;
+        width: 100%;
+        top: 300px;
+        padding: 15px;
+        background-color: rgba(35, 207, 255, .5);
     }
 }

@@ -78,15 +78,120 @@
         </ul>
     </div>
 
-    <div class="search-results">
-        <div class="hike">
+    <!--
+<div class="search-results">
+    <h1> Hike Results </h1>
+    <div class="hike">
+        <div class="hike-img-text">
             <img src="https://cdn-files.apstatic.com/hike/7039883_medium_1509768579.jpg">
             <div class="text-content">
                 <p>Sunshine Lion's Lair Loop<br> Length : 5.3<br> Difficulty : Blue<br>
                 </p>
             </div>
-            <div id="map">
+            <div class="more-info">
+                <a href="#">MORE INFO</a> |
+                <a id="addLink"> ADD TO TRIP</a>
             </div>
+        </div>
+        <div id="map">
+        </div>
+    </div>
+    <div class="hike">
+        <div class="hike-img-text">
+            <img src="https://cdn-files.apstatic.com/hike/7039883_medium_1509768579.jpg">
+            <div class="text-content">
+                <p>Sunshine Lion's Lair Loop<br> Length : 5.3<br> Difficulty : Blue<br>
+                </p>
+            </div>
+            <div class="more-info">
+                <a href="#">MORE INFO</a> |
+                <a href="#"> ADD TO TRIP</a>
+            </div>
+        </div>
+        <div id="map">
+        </div>
+    </div>
+</div>
+-->
+    <!--
+    <div class="my-trips">
+        <h1> My Trips</h1>
+        <div class="row">
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+            <div class="col-4 trip">
+                <div class="trip-name hidden-overflow">
+                    SAN FRANCISCO, CA
+                </div>
+                <div class="remove">
+                    X REMOVE TRIP
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form>
+                <div class="center-on-page">
+                    <h1>Add Hike</h1>
+                    <p> Add to Existing Trip</p>
+                    <div class="select">
+                        <select name="slct" id="slct">
+                            <option>add to trip</option>
+                            <option value="1">Denver, Colorado </option>
+                            <option value="2">Atlanta, GA</option>
+                        </select>
+                    </div>
+                    <p> Create New Trip</p>
+                    <input type="text" placeholder="new trip">
+                    <input type="submit" value="add hike">
+                </div>
         </div>
     </div>
 
