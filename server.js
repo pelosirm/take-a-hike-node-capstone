@@ -119,7 +119,6 @@ let getHikes = function (coordinates) {
 
 
 app.get('/hikes/:location', (req, res) => {
-    console.log(req.params.location);
     let location = req.params.location;
     let dataPromise = getCoordinates(location);
     dataPromise.then(function (results) {

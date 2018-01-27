@@ -34,6 +34,7 @@ html {
     background-color: rgba(0, 0, 0, 0.5)
 }
 
+
 .input-square {
     position: absolute;
     top: 190px;
@@ -122,13 +123,13 @@ p {
     font-weight: 200;
 }
 
-
 .navigation {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     padding: 16px;
+    z-index: 1000;
 }
 
 .navigation li {
@@ -139,9 +140,20 @@ p {
     padding-right: 15px;
 }
 
+.navbar-fixed-top.scrolled {
+    background-color: black !important;
+    transition: background-color 200ms linear;
+}
+
+.navbar-fixed-top.scrolled .left a {
+    color: white;
+}
+
 a {
     text-decoration: none;
     color: #23CFFF;
+    font-family: 'Barlow', sans-serif;
+
 }
 
 a:hover {
@@ -168,59 +180,72 @@ a:hover {
 
 .search-results h1 {
     color: black;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+}
+
+.search-title a {
+    text-align: right;
+    position: relative;
+    display: inline-block
 }
 
 .hike {
     width: 100%;
-    height: 400px;
-    margin-bottom: 20px;
+    height: 300px;
+    margin-bottom: 30px;
 }
 
 .google-maps {
     width: 50%;
-    height: 400px;
+    height: 100%;
     float: right;
 }
 
 .hike-img-text {
     position: relative;
     text-align: center;
+    float: left;
     width: 50%;
+    height: 300px;
+    background-image: url("mike-wilson-183196.jpg");
+    background-size: cover;
 }
 
 
 .hike-img-text img {
     width: 100%;
-    height: 400px;
+    height: 300px;
     float: left;
 }
 
 .text-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%)
+    text-align: left;
+    margin-top: 10%;
 }
 
 .more-info {
+    text-align: center;
     position: absolute;
     font-family: 'Barlow', sans-serif;
     width: 100%;
-    top: 300px;
+    top: 60%;
     padding: 15px;
-    background-color: rgba(35, 207, 255, .5);
+    background-color: rgba(35, 207, 255, .9);
 }
 
-.more-info a {
+.more-info a,
+.more-info i {
     padding: 15px;
     color: white;
+}
+
+.more-info a:hover {
+    color: orange;
 }
 
 .text-content p {
     color: white;
     font-weight: 500;
-
 }
 
 .hike-name {
@@ -334,7 +359,7 @@ a:hover {
 }
 
 .modal-content h1,
-p {
+.modal-content p {
     color: black;
 }
 
@@ -432,6 +457,19 @@ select::-ms-expand {
     color: white !important;
 }
 
+@media only screen and (max-width: 1090px) {
+    .input-square {
+        position: absolute;
+        top: 190px;
+        left: 25%;
+        width: 50%;
+        height: 280px;
+        background-color: rgba(248, 248, 248, 0.9);
+        border-radius: 25px;
+        font-family: 'Barlow', sans-serif;
+    }
+}
+
 
 @media only screen and (max-width: 640px) {
     .header-intro {
@@ -444,6 +482,28 @@ select::-ms-expand {
         background-color: rgba(0, 0, 0, 0.5)
     }
 
+    .header-text {
+        margin-top: 40%;
+    }
+
+    .left {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sm-view {
+        float: right;
+        position: relative;
+        left: -50%;
+        text-align: left;
+    }
+    .sm-view > .center-float {
+        position: relative;
+        left: 50%;
+    }
+
+
     .input-square {
         position: absolute;
         top: 20%;
@@ -455,13 +515,9 @@ select::-ms-expand {
         font-family: 'Barlow', sans-serif;
     }
 
-    .hike img {
-        width: 100%;
-        float: left;
-    }
-
     .hike-img-text {
         width: 100%;
+        float: left;
     }
 
     .google-maps {
@@ -479,8 +535,7 @@ select::-ms-expand {
         position: absolute;
         font-family: 'Barlow', sans-serif;
         width: 100%;
-        top: 300px;
+        top: 60%;
         padding: 15px;
-        background-color: rgba(35, 207, 255, .5);
     }
 }

@@ -11,7 +11,7 @@ const tripSchema = mongoose.Schema({
 });
 
 const hikeSchema = mongoose.Schema({
-    hikeName: {
+    trailName: {
         type: String,
         required: true
     },
@@ -23,15 +23,7 @@ const hikeSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    difficulty: {
-        type: String,
-        required: true
-    },
-    stars: {
-        type: Number,
-        required: true
-    },
-    summary: {
+    location: {
         type: String,
         required: true
     },

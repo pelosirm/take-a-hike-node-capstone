@@ -1,5 +1,24 @@
-// api calls
+//
+//
+//function createMaps(data) {
+//    data.forEach(function (hikes) {
+//        initMap(hikes.coordinates, hikes.id);
+//    })
+//
+//}
+//
+//function initMap(coordinates, id) {
+//    let map = new google.maps.Map(document.getElementById(id), {
+//        zoom: 15,
+//        center: coordinates
+//    });
+//    let marker = new google.maps.Marker({
+//        position: coordinates,
+//        map: map
+//    });
+//}
 
+// api calls
 function getHikes(location) {
     $.ajax({
             url: "http://localhost:8080/hikes/" + location,
@@ -16,120 +35,108 @@ function getHikes(location) {
         })
 }
 
-function createMaps(data) {
-    data.forEach(function (hikes) {
-        initMap(hikes.coordinates, hikes.id);
-    })
-
-}
-
-function initMap(coordinates, id) {
-    //    var uluru = {
-    //        lat: 40.02,
-    //        lng: -105.2979
-    //    };
-    let map = new google.maps.Map(document.getElementById(id), {
-        zoom: 15,
-        center: coordinates
-    });
-    let marker = new google.maps.Marker({
-        position: coordinates,
-        map: map
-    });
-}
-
-
-
-function initialize(coords) {
-    var markers = [];
-    var maps = [];
-
-    for (var i = 0, length = coords.length; i < length; i++) {
-        var point = coords[i];
-        var latlng = new google.maps.LatLng(point.lat, point.lng);
-
-        maps[i] = new google.maps.Map(document.getElementById('map' + i), {
-            zoom: point.zoom,
-            center: latlng
-        });
-
-        markers[i] = new google.maps.Marker({
-            position: latlng,
-            map: maps[i]
-        });
-    }
-}
-
 function buildHikeHtml(data) {
     let htmlOutput = '';
-    let googleMaps = [];
+    let imgUrl = [];
     data.forEach(function (value, index) {
-        htmlOutput += '<div class="hike">'
-        htmlOutput += '<div class="hike-img-text">'
-        htmlOutput += '<img src="' + value.imgMedium + '">'
+        htmlOutput += `<div class="hike">`
+        htmlOutput += `<div class="hike-img-text" id="img${index}">`
         htmlOutput += '<div class="text-content">'
-        htmlOutput += '<p>' + value.name + '<br> Length :' + value.length + '<br>Location :' + value.location + '<br></p>'
+        htmlOutput += '<p><span class="trail-name">' + value.name + '</span><br>Length :<span class="trail-length">' + value.length + '</span><br>Location :<span class="trail-location">' + value.location + '</span><br></p>'
         htmlOutput += '</div>'
         htmlOutput += '<div class = "more-info" >'
-        htmlOutput += '<a href = "' + value.url + '"> MORE INFO </a> | <a id = "addLink"> ADD TO TRIP </a>'
+        htmlOutput += '<a target="_blank" href = "' + value.url + '"> MORE INFO </a><i class="fa fa-tree" aria-hidden="true"></i><a class = "add-link"> ADD TO TRIP </a>'
         htmlOutput += '</div></div>'
-        htmlOutput += '<div class="google-map" id="map' + index + '"></div>'
+        htmlOutput += '<div class="google-maps" id="map' + index + '"><iframe width="100%" height="300" frameborder="1" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDP7Dr9Y3d1lf4q-ezgIU8njXxG3mLmZ8&q=' + value.latitude + ',' + value.longitude + '">'
+        htmlOutput += '</iframe></div>'
         htmlOutput += '</div>'
 
-        let mapPoints = {
-            id: 'map' + index,
-            coordinates: {
-                lat: value.latitude,
-                lng: value.longitude
-            }
-        }
-
-        googleMaps.push(mapPoints);
+        imgUrl.push(value.imgMed)
     })
 
     $('.search-results').append(htmlOutput);
     $('.search-results').show();
-    var coords = [
-        {
-            lat: 49.18589,
-            lng: -2.19917,
-            zoom: 17
-        },
-        {
-            lat: 101.1986,
-            lng: -50.2445,
-            zoom: 17
-        },
-        {
-            lat: 29.125285,
-            lng: -82.048823,
-            zoom: 17
-        }
-    ];
+}
 
-    initialize(coords);
+function addHike() {
 
 }
 
+// page manipulation
+
+function frontPage() {
+    $('.login').hide();
+    $('.search-input').hide();
+    $('.search-results').hide();
+    $('.my-trips').hide();
+}
+
+function login() {
+    $('.create-new').show();
+    $('.header-text').hide();
+    $('.search-input').hide();
+    $('.search-results').hide();
+    $('.my-trips').hide();
+}
+
+function search() {
+    $('.search-input').show();
+    $('.header-intro').show();
+    $('.search-input').show();
+    $('.header-text').hide();
+    $('.my-trips').hide();
+    $('.search-results').hide();
+
+}
+
+function saveHike() {
+
+}
 
 $(document).ready(function () {
-    console.log("ready!");
-
+    frontPage();
 
     $('.search-results').hide();
-    $("#addLink").on("click", function () {
+
+    $(document).scroll(function () {
+        let $nav = $(".navbar-fixed-top");
+        $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
         console.log('fired')
-        event.preventDefault();
+    });
+
+    $('.search-results').on('click', '.add-link', function () {
         let modal = document.getElementById('myModal');
         modal.style.display = "block";
+
+        newHike.trailName = $(this).closest('.hike').find('.trail-name').text();
+        newHike.length = $(this).closest('.hike').find('.trail-length').text();
+        newHike.img = $(this).closest('.hike').find('img').attr('src');
+        newHike.location = $(this).closest('.hike').find('.trail-location').text();
+
+
+    })
+
+    $('.close').on('click', function () {
+        let modal = document.getElementById('myModal');
+        modal.style.display = "none";
     })
 
     $('.search-location').on('submit', function () {
         event.preventDefault();
         let locationValue = $('#location').val();
         getHikes(locationValue);
-        $('.header-image').hide();
+        $('.search-input').hide();
         $('.header-intro').hide();
-
+        $('.header-image').hide();
     })
+
+    $('.get-started').on('click', function () {
+        login();
+    })
+
+    $('.nav-demo').on('click', function () {
+        search();
+    })
+
+
 });

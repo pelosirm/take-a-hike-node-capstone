@@ -18,36 +18,29 @@
     <div class="header-image">
     </div>
     <div class="header-intro">
-        <!--
-<div class="header-text">
-    <h1> take a hike </h1>
-    <p> searching for a hike for your upcoming trip? <br> find rated hikes based on your location here</p>
-    <p><a href=# class="heavy"> get started </a></p>
-</div>
--->
-        <!--
-        <div class="login input-square">
+        <div class="header-text">
+            <h1> take a hike </h1>
+            <p> searching for a hike for your upcoming trip? <br> find rated hikes based on your location here</p>
+            <p><a href=# class="heavy get-started"> get started </a></p>
+        </div>
+        <div class="login input-square returning-user">
             <form>
                 <legend> Login </legend>
                 <input type="text" id="user" name="username" placeholder="username">
                 <input type="password" id="pword" name="password" placeholder="password">
                 <input type="submit" value="Submit">
             </form>
+            <p> not a user? <a href="#">create a login</a></p>
         </div>
--->
-
-
-        <!--
         <div class="login input-square create-new">
             <form>
                 <legend> Create New User </legend>
                 <input type="text" id="user" name="username" placeholder="username">
                 <input type="password" id="pword" name="password" placeholder="password">
                 <input type="submit" value="Submit">
+                <p> already a user? <a href="#">login</a></p>
             </form>
         </div>
--->
-
         <div class="search-input input-square">
             <form class="search-location" aria-label="search for hikes by city and state">
                 <legend> Search for Hikes by Location </legend>
@@ -56,113 +49,51 @@
                 <input type="submit" value="Search">
             </form>
         </div>
-
-
     </div>
-
-    <div class="navigation">
+    <div class="navigation navbar-fixed-top">
         <ul>
             <li class="left">
                 <a href="#"><i class="fa fa-tree" aria-hidden="true"></i> take a hike</a>
             </li>
-            <li class="right">
-                <a href="#">login</a>
-            </li>
-            <li class="right">
-                <a href="#">sign up</a>
-            </li>
-            <li class="right">
-                <a href="#">demo</a>
-            </li>
         </ul>
+        <div class="sm-view">
+            <ul class="center-float">
+                <li class="right">
+                    <a href="#" class="nav-login">login</a>
+                </li>
+                <li class="right">
+                    <a href="#" class="nav-sign-up">sign up</a>
+                </li>
+                <li class="right">
+                    <a href="#" class="nav-demo">demo</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
-
     <div class="search-results">
-        <h1> Hike Results </h1>
+        <div class="search-title">
+            <h1> Hike Results </h1>
+            <a href="#"> new search </a>
+        </div>
     </div>
-
-    <!--
     <div class="my-trips">
-        <h1> My Trips</h1>
-        <div class="row">
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
+        <h1> My Hikes</h1>
+        <button class="accordion">Section 1</button>
+        <div class="panel">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
-        <div class="row">
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
-            <div class="col-4 trip">
-                <div class="trip-name hidden-overflow">
-                    SAN FRANCISCO, CA
-                </div>
-                <div class="remove">
-                    X REMOVE TRIP
-                </div>
-            </div>
+
+        <button class="accordion">Section 2</button>
+        <div class="panel">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <button class="accordion">Section 3</button>
+        <div class="panel">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
     </div>
--->
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <form>
-                <div class="center-on-page">
-                    <h1>Add Hike</h1>
-                    <p> Add to Existing Trip</p>
-                    <div class="select">
-                        <select name="slct" id="slct">
-                            <option>add to trip</option>
-                            <option value="1">Denver, Colorado </option>
-                            <option value="2">Atlanta, GA</option>
-                        </select>
-                    </div>
-                    <p> Create New Trip</p>
-                    <input type="text" placeholder="new trip">
-                    <input type="submit" value="add hike">
-                </div>
-        </div>
-    </div>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPvDHZ7WXM0UwKgKx2wfTiOsS23Oya7jE" type="text/javascript"></script>
 
