@@ -125,8 +125,6 @@ app.get('/hikes/:location', (req, res) => {
     dataPromise.then(function (results) {
         res.json(results.trails)
     })
-
-
 })
 
 app.use('*', (req, res) => {

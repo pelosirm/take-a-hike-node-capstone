@@ -8,16 +8,22 @@ Take a hike is for the traveling hiker, it allows the user to search for hikes b
 
 ## Initial UX
 
+* As an initial user, I want to land on the page and see what the website is about.
+* As an initial user, if I would like to sign up I would like an easy way to create my account.
+* As a logged in user, I would like to be search hikes based on location I am planning to visit in order to find activites for my trip.
+* Additionally, the user is able to add hikes to a specific trip in order to reference them later.
+* The user will have the ability to add notes and update trips as their plans change.
+* The user will be able to delete hikes and trips from their acccount.
+
+
 
 ## Working Prototype
 
 
 ## Functionality
-* When they first set up their account, users are guided through a setup process in which they will be asked to describe an achievement or success they have accomplished and to specify which skills and character traits were required in order to achieve it (for example, negotiation, interpersonal skills, planning, forethought, JavaScript, Python, classical guitar, persistence, juggling). The app will provide users with a default list of general skills and traits from which users can select all relevant ones, and (PLANNED FUTURE ADDITIONAL FEATURE) users should also be able to add and specify their own skills or traits to add to the list (for example, job-specific skills like jQuery or project management).
-* Once they have initially set up an account, view their past successes in one or more graphic representations (timelines, charts, graphs, visualizations, word clouds, etc.).
+* When the user sets up for an account, they are able to search hikes by location and save them as they are planning out their trips.
 
 ## Technical
-Not Just Luck was built as two separate parts.
 
 <h3>Front End</h3>
 <ul>
@@ -25,7 +31,6 @@ Not Just Luck was built as two separate parts.
     <li>CSS3</li>
     <li>JavaScript</li>
     <li>jQuery</li>
-    <li>React</li>
 </ul>
 <h3>Back End</h3>
 <ul>
