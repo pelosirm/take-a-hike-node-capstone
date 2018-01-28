@@ -40,10 +40,14 @@ html {
     top: 190px;
     left: 25%;
     width: 50%;
-    height: 300px;
+    height: 45%;
     background-color: rgba(248, 248, 248, 0.9);
     border-radius: 25px;
     font-family: 'Barlow', sans-serif;
+}
+
+.login p {
+    text-align: center;
 }
 
 legend {
@@ -79,7 +83,8 @@ input[type=password] {
     font-weight: 200;
 }
 
-input[type=submit] {
+input[type=submit],
+button {
     background-color: #23CFFF;
     border-radius: 10px;
     display: inline-block;
@@ -95,13 +100,17 @@ input[type=submit] {
 }
 
 .search-input {
-    height: 230px;
+    height: 40%;
 }
 
 .header-intro h1 {
     margin-top: 30%;
     margin-left: 15%;
     text-align: left;
+}
+
+.header-text p {
+    margin-left: 15%;
 }
 
 h1 {
@@ -116,7 +125,6 @@ p {
     font-weight: 100;
     font-size: 22px;
     color: white;
-    margin-left: 15%;
 }
 
 .heavy {
@@ -212,12 +220,6 @@ a:hover {
 }
 
 
-.hike-img-text img {
-    width: 100%;
-    height: 300px;
-    float: left;
-}
-
 .text-content {
     text-align: left;
     margin-top: 10%;
@@ -243,6 +245,11 @@ a:hover {
     color: orange;
 }
 
+
+.text-content {
+    margin-left: 5%
+}
+
 .text-content p {
     color: white;
     font-weight: 500;
@@ -263,13 +270,6 @@ a:hover {
     text-align: center;
 }
 
-.trip {
-    background: #23CFFF;
-    height: 250px;
-    margin: 10px;
-    position: relative;
-}
-
 .trip-name {
     position: absolute;
     color: white;
@@ -282,182 +282,64 @@ a:hover {
     transform: translate(-50%, -50%);
 }
 
-.hidden-overflow {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    display: block;
-    line-height: 1em;
-    max-height: 3em;
-}
-
-.remove {
-    position: absolute;
-    height: 30px;
-    width: 100%;
-    top: 200px;
-    text-align: center;
-    margin-left: -5px;
-    background: orange;
-    color: white;
-    font-family: 'Barlow', sans-serif;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-
-}
-
-/* The Modal (background) */
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
+.google-maps-trip {
+    width: 50%;
     height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-/* Modal Content */
-
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 30px;
-    border: 1px solid #888;
-    width: 100%;
-    height: 100%
-}
-
-/* The Close Button */
-
-.close {
-    color: #aaaaaa;
     float: right;
-    margin-right: 50px;
-    font-size: 80px;
-    font-weight: bold;
-    display: block;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+.individual-hike {
+    margin-top: 5%;
+    margin-bottom: 5%
 }
 
-.center-on-page {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -40%);
+.trip p {
+    text-align: center;
 }
 
-.modal-content h1,
-.modal-content p {
+.individual-hike p {
     color: black;
+    margin-left: 0;
 }
 
-.modal-content p {
-    text-align: left;
-    margin-left: 0px;
-    line-height: 10px;
-}
 
-/* Reset Select */
-
-select
-/*,.modal-content input[type="text"] {*/
-
-    {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
-    outline: 0;
-    box-shadow: none;
-    border: 0 !important;
-    background: #23CFFF;
-    background-image: none;
-}
-
-/* Custom Select */
-
-.select
-/*,.modal-content input[type="text"] {*/
-
-    {
-    position: relative;
-    display: block;
-    width: 20em;
-    height: 3em;
-    line-height: 3;
-    overflow: hidden;
-    border-radius: .25em;
-}
-
-select {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0 0 .10em .5em;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 100;
-    font-family: 'Barlow', sans-serif;
+.accordion {
+    background-color: #eee;
+    color: #444;
     cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-select::-ms-expand {
+.active,
+.accordion:hover {
+    background-color: orange;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
     display: none;
+    overflow: hidden;
 }
 
-/* Arrow */
-
-.select::after {
-    content: '\25BC';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0 1em;
-    background: #188DAD;
-    pointer-events: none;
+.trips-list {
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
-/* Transition */
-
-.select:hover::after {
-    color: #f39c12;
+.update-form {
+    margin-top: 20px;
 }
 
-.select::after {
-    -webkit-transition: .25s all ease;
-    -o-transition: .25s all ease;
-    transition: .25s all ease;
-}
 
-.modal-content input[type="text"] {
-    height: 3em;
-}
-
-.modal-content input[type="submit"] {
-    background-color: #f39c12;
-}
-
-.modal-content input[type="text"]::-webkit-input-placeholder,
-.modal-content input[type="text"]:-moz-placeholder,
-.modal-content input[type="text"]::-moz-placeholder,
-.modal-content input[type="text"]:-ms-input-placeholder {
-    color: white !important;
-}
-
-@media only screen and (max-width: 1090px) {
+/ @media only screen and (max-width: 1090px) {
     .input-square {
         position: absolute;
         top: 190px;
@@ -503,13 +385,18 @@ select::-ms-expand {
         left: 50%;
     }
 
+    .individual-hike p {
+        color: black;
+        margin-left: 0;
+        margin-top: 0;
+    }
+
 
     .input-square {
         position: absolute;
         top: 20%;
         width: 100%;
         left: 0%;
-        height: 300px;
         background-color: rgba(248, 248, 248, 0.9);
         border-radius: 0;
         font-family: 'Barlow', sans-serif;
@@ -522,8 +409,9 @@ select::-ms-expand {
 
     .google-maps {
         width: 100%;
-        height: 400px;
+        height: 300px;
         float: right;
+        margin-bottom: 10%;
     }
 
     .text-content {

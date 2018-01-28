@@ -1,9 +1,4 @@
-const {
-    Hike
-} = require('./models/models.js');
-const {
-    Trip
-} = require('./models/models.js');
+const Hike = require('./models/models');
 const mongoose = require('mongoose');
 const events = require('events');
 const https = require('https');
@@ -125,6 +120,31 @@ app.get('/hikes/:location', (req, res) => {
         res.json(results.trails)
     })
 })
+
+// create new hike
+app.post('/hikes/create-new', (req, res) => {
+    console.log(req.body)
+    Hike
+        .create({
+            trailName: req.body.trailName,
+            length: req.body.length,
+            img: req.body.img,
+            location: req.body.location,
+            url: req.body.url,
+            googleMap: req.body.googleMap,
+            dateCompleted: req.body.dateCompleted,
+            notes: req.body.notes,
+            status: req.body.status,
+        })
+        .then(hike => res.status(201).json(req.body.trailName + ' added'))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: 'Something went wrong'
+            });
+        });
+
+});
 
 app.use('*', (req, res) => {
     res.status(404).json({
