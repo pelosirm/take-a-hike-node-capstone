@@ -46,6 +46,10 @@ html {
     font-family: 'Barlow', sans-serif;
 }
 
+.returning-user {
+    height: 40%
+}
+
 .login p {
     text-align: center;
 }
@@ -128,7 +132,7 @@ p {
 }
 
 .heavy {
-    font-weight: 200;
+    font-weight: 500;
 }
 
 .navigation {
@@ -207,6 +211,7 @@ a:hover {
     width: 50%;
     height: 100%;
     float: right;
+    margin-bottom: 10px;
 }
 
 .hike-img-text {
@@ -215,6 +220,7 @@ a:hover {
     float: left;
     width: 50%;
     height: 300px;
+    margin-bottom: 10px;
     background-image: url("mike-wilson-183196.jpg");
     background-size: cover;
 }
@@ -282,6 +288,11 @@ a:hover {
     transform: translate(-50%, -50%);
 }
 
+textarea {
+    width: 40%;
+    height: 5%;
+}
+
 .google-maps-trip {
     width: 50%;
     height: 100%;
@@ -302,6 +313,9 @@ a:hover {
     margin-left: 0;
 }
 
+.hike-notes {
+    margin-top: 15px;
+}
 
 .accordion {
     background-color: #eee;

@@ -120,24 +120,60 @@ function buildTripHtml(data) {
     let htmlOutput = ''
 
     data.forEach(function (value, index) {
-        htmlOutput += `<button class="accordion"><i class="fa fa-chevron-down" aria-hidden="true"></i> ${value.trailName} | ${value.location}</button>`
-        htmlOutput += `<div class="panel">`
+        let status = '';
+        let dateCompleted = ''
+
+        if (!value.status) {
+            status = "Haven't Hiked It"
+        } else {
+            status = 'Completed'
+        }
+
+        if (!value.dateCompleted) {
+            dateCompleted = 'Not Yet'
+        } else {
+            dateCompleted = value.dateCompleted
+        }
+
+        htmlOutput += `<button class="accordion"><i class="fa fa-chevron-down" aria-hidden="true"></i> ${value.trailName} | ${value.location} <span class="right"> ${dateCompleted} </span></button>`
+        htmlOutput += `<div class="panel" id= ${value._id}>`
         htmlOutput += `<div class="hike-trips individual-hike">`
-        htmlOutput += `<div class="hike-img-text">`
-        htmlOutput += `<div class="text-content trip">`
-        htmlOutput += `<p>${value.trailName}<br> Length : ${value.length}<br> Location : ${value.location}<br></p>`
-        htmlOutput += `</div></div>`
+        htmlOutput += `<div class="hike-img-text" style="background-image: url('${value.img}')">`
+        htmlOutput += '</div>'
         htmlOutput += `<div class="google-maps">`
         htmlOutput += `<iframe width="100%" height="300" frameborder="0" style="border:0" src="${value.googleMap}" allowfullscreen></iframe>`
         htmlOutput += `</div>`
         htmlOutput += `<div class="hike-info">`
         htmlOutput += `<div class="hike-notes">`
-        htmlOutput += `<p> Status : ${value.status} <br> Date Completed: ${value.dateCompleted} <br> Notes: ${value.notes}</p>`
+        htmlOutput += `<p> <span class="heavy">Trail : </span> ${value.trailName} <br>`
+        htmlOutput += `<span class="heavy"> Length : </span>${value.length} <br>`
+        htmlOutput += `<span class="heavy">Location : </span> ${value.location}<br>`
+        htmlOutput += `<div class="info-to-update>`
+        htmlOutput += `<span class="heavy update-status">Status : </span>${status} <br>`
+        htmlOutput += `<span class="heavy update-complete">Date Completed : </span>${dateCompleted}<br>`
+        htmlOutput += `<span class="heavy update-notes">Notes : </span> ${value.notes}</p>`
         htmlOutput += `<button class="update-hike">Update Hike</button>`
-        htmlOutput += `</div></div></div></div>`
+        htmlOutput += `</div></div></div></div></div>`
     })
     $('.trips-list').append(htmlOutput);
 }
+
+function buildUpdateHtml(id) {
+
+
+    let htmlOutput = ''
+
+    htmlOutput += `<form id=${id} class='form-update-hike'>`
+    htmlOutput += `<input type="radio" name="status" value="false" id ="notComplete'> <label for="notComplete"> Haven't Hiked It </label><br>`
+    htmlOutput += `<input type="radio" name="status" value="true" id="completed"> <label for="completed"> Hiked It </label><br>`
+    htmlOutput += `Date Completed :<input type="date" name="dateCompleted"><br>`
+    htmlOutput += `<textarea>Notes</textarea><br>`
+    htmlOutput += `<button class="update-hike-form-button">Update Hike</button>`
+    htmlOutput += `</form>`
+
+    return htmlOutput
+}
+
 
 
 // page manipulation
@@ -207,7 +243,7 @@ $(document).ready(function () {
         newHike.googleMap = $(this).closest('.hike').find('.google-maps').find('iframe').attr('src');
         newHike.dateCompleted = '';
         newHike.notes = '';
-        newHike.status = false;
+        newHike.status = "Haven't Done";
         newHike.account = activeUser;
 
         addHike(newHike);
@@ -287,6 +323,7 @@ $(document).ready(function () {
 
     $('.nav-trips').on('click', function () {
         myTrips();
+        $('.trips-list').empty();
         console.log(activeUser)
         getTrip(activeUser)
         $('.update-form').hide();
@@ -313,22 +350,22 @@ $(document).ready(function () {
         }
     })
 
-    //expandable buttons for my trips
-    let acc = document.getElementsByClassName("accordion");
-    let i;
+    $('.trips-list').on('click', '.update-hike', function () {
+        let updateId = $(this).closest('.panel').attr('id')
+        let notes = $(this).closest
+        let divUpdate = $(this).closest('.info-to-update')
+        $(this).closest('.info-to-update').empty();
+        let updateForm = buildUpdateHtml(updateId)
+        divUpdate.append(updateForm);
 
-    for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function () {
-            this.classList.toggle("active");
+    })
 
-            let panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    }
+    $('.trips-list').on('submit', '.form-update-hike', function () {
+        event.preventDefault();
+        let id = $(this).attr('id')
+        console.log('fired' + id)
+    })
+
 
 
 });
