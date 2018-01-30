@@ -1,7 +1,9 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 mongoose.Promise = global.Promise;
+
 
 const hikeSchema = mongoose.Schema({
     trailName: {
@@ -36,10 +38,38 @@ const hikeSchema = mongoose.Schema({
     },
     status: {
         type: Boolean
+    },
+    account: {
+        type: String,
+        required: true
     }
 });
 
+const userSchema = mongoose.Schema({
+    user: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+})
+
+userSchema.methods.validatePassword = function (password, callback) {
+    bcrypt.compare(password, this.password, (err, isValid) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, isValid);
+    });
+};
 
 const Hike = mongoose.model('Hike', hikeSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Hike
+module.exports = {
+    Hike: Hike,
+    User: User,
+}

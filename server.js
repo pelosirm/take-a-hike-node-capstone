@@ -1,4 +1,9 @@
-const Hike = require('./models/models');
+const {
+    User
+} = require('./models/models');
+const {
+    Hike
+} = require('./models/models');
 const mongoose = require('mongoose');
 const events = require('events');
 const https = require('https');
@@ -111,15 +116,112 @@ let getHikes = function (coordinates) {
     })
 }
 
+// create new user
+app.post('/users/create', (req, res) => {
+    let username = req.body.username;
+    username = username.trim();
+    let password = req.body.password;
+    password = password.trim();
+
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal server error'
+            })
+        }
+
+        bcrypt.hash(password, salt, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal server error'
+                })
+            }
+
+            User.create({
+                user: username,
+                password: hash
+            }, (err, item) => {
+                if (err) {
+
+                    console.log(err)
+                    return res.status(500).json({
+                        message: 'Internal server error'
+                    });
+                }
+
+                if (item) {
+                    console.log(`User \`${username}\` created.`);
+                    return res.json(username);
+                }
+            })
+        })
+    })
+})
+
+// sign in user
+app.post('/users/login', (req, res) => {
+
+    let username = req.body.username;
+    let password = req.body.password;
+
+    User
+        .findOne({
+            user: username
+        }, function (err, items) {
+            if (err) {
+                return res.status(500).json({
+                    message: "internal server error"
+                });
+            }
+            if (!items) {
+                return res.status(401).json({
+                    message: "not found"
+                })
+            } else {
+                items.validatePassword(password, function (err, isValid) {
+                    if (err) {
+                        console.log('Password could not be validated')
+                    }
+                    if (!isValid) {
+                        return res.status(401).json({
+                            message: "Not found"
+                        })
+                    } else {
+                        return res.json(items.user);
+                    }
+                });
+            }
+        })
+})
+
 
 
 app.get('/hikes/:location', (req, res) => {
-    let location = req.params.location;
+    let location = encodeURI(req.params.location);
     let dataPromise = getCoordinates(location);
     dataPromise.then(function (results) {
         res.json(results.trails)
     })
 })
+
+app.get('/trips/:user', (req, res) => {
+    let user = req.params.user
+    console.log(user)
+    Hike
+        .find({
+            'account': user
+        })
+        .then(function (results) {
+            console.log(results)
+            res.json(results)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: 'something went horribly awry'
+            });
+        });
+});
 
 // create new hike
 app.post('/hikes/create-new', (req, res) => {
@@ -135,6 +237,7 @@ app.post('/hikes/create-new', (req, res) => {
             dateCompleted: req.body.dateCompleted,
             notes: req.body.notes,
             status: req.body.status,
+            account: req.body.account
         })
         .then(hike => res.status(201).json(req.body.trailName + ' added'))
         .catch(err => {
