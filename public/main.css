@@ -9,6 +9,27 @@ html {
     margin: 0;
 }
 
+.error-message {
+    text-align: center;
+    background: orange;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+    height: 50px;
+    border-radius: 25px;
+    position: fixed;
+}
+
+.error-message span {
+    font-weight: 500;
+    padding: 10px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 22px;
+    color: white;
+}
+
 .header-image {
     margin: 0;
     padding: 0;
@@ -40,7 +61,7 @@ html {
     top: 190px;
     left: 25%;
     width: 50%;
-    height: 45%;
+    height: 50%;
     background-color: rgba(248, 248, 248, 0.9);
     border-radius: 25px;
     font-family: 'Barlow', sans-serif;
@@ -322,13 +343,22 @@ textarea {
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
+    width: 96%;
     text-align: left;
     border: none;
     outline: none;
     transition: 0.4s;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.fa-minus-circle {
+    color: #444;
+}
+
+.fa-minus-circle:hover {
+    color: red;
 }
 
 .active,
@@ -364,6 +394,21 @@ textarea {
         border-radius: 25px;
         font-family: 'Barlow', sans-serif;
     }
+
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 90%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
 }
 
 
@@ -396,7 +441,7 @@ textarea {
     }
     .sm-view > .center-float {
         position: relative;
-        left: 50%;
+        left: 35%;
     }
 
     .individual-hike p {
@@ -440,4 +485,31 @@ textarea {
         top: 60%;
         padding: 15px;
     }
+
+    .error-message {
+        margin-top: 75px;
+        text-align: center;
+        background: orange;
+        width: 100%;
+        left: 0;
+        height: 100px;
+        position: relative;
+    }
+
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 90%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+
 }

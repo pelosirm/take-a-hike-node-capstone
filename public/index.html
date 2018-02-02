@@ -15,9 +15,9 @@
 <body>
 
 
-    <div class="header-image">
-    </div>
-    <div class="header-intro">
+    <header class="header-image">
+    </header>
+    <header class="header-intro">
         <div class="header-text">
             <h1> take a hike </h1>
             <p> searching for a hike for your upcoming trip? <br> find rated hikes based on your location here</p>
@@ -26,8 +26,8 @@
         <div class="login input-square returning-user">
             <form class="form-returning-user">
                 <legend> Login </legend>
-                <input type="text" name="username" placeholder="username">
-                <input type="password" name="password" placeholder="password">
+                <input type="text" name="username" placeholder="username" aria-required="true">
+                <input type="password" name="password" placeholder="password" aria-required="true">
                 <input type="submit" value="Submit">
             </form>
             <p> not a user? <a href="#" class="nav-sign-up">create a login</a></p>
@@ -35,9 +35,9 @@
         <div class="login input-square create-new">
             <form class="form-create-new">
                 <legend> Create New User </legend>
-                <input type="text" name="username" placeholder="username">
-                <input type="password" name="password" placeholder="password">
-                <input type="password" name="confirmPassword" placeholder="confirm password">
+                <input type="text" name="username" placeholder="username" aria-required="true">
+                <input type="password" name="password" placeholder="password" aria-required="true">
+                <input type="password" name="confirmPassword" placeholder="confirm password" aria-required="true">
                 <input type="submit" value="Submit">
             </form>
             <p> already a user? <a href="#" class="nav-login">login</a></p>
@@ -46,12 +46,12 @@
             <form class="search-location" aria-label="search for hikes by city and state">
                 <legend> Search for Hikes by Location </legend>
                 <label for="location"></label>
-                <input type="text" id="location" name="location" placeholder="City, State" aria-required>
+                <input type="text" id="location" name="location" placeholder="City, State" aria-required="true">
                 <input type="submit" value="Search">
             </form>
         </div>
-    </div>
-    <div class="navigation navbar-fixed-top">
+    </header>
+    <nav class="navigation navbar-fixed-top">
         <ul>
             <li class="left">
                 <a href="#"><i class="fa fa-tree" aria-hidden="true"></i> take a hike</a>
@@ -59,6 +59,9 @@
         </ul>
         <div class="sm-view">
             <ul class="center-float">
+                <li class="right">
+                    <a href="#" class="nav-signout">signout</a>
+                </li>
                 <li class="right">
                     <a href="#" class="nav-login">login</a>
                 </li>
@@ -76,18 +79,20 @@
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="search-results">
+        <div class="error-message">
+            <span> Oops! Something went wrong</span>
+        </div>
+    </nav>
+    <section class="search-results">
         <div class="search-title">
             <h1> Hike Results </h1>
-            <a href="#"> new search </a>
         </div>
-    </div>
-    <div class="my-trips">
+    </section>
+    <section class="my-trips">
         <h1> My Hikes</h1>
         <div class="trips-list">
         </div>
-    </div>
+    </section>
 </body>
 
 </html>

@@ -66,6 +66,17 @@ userSchema.methods.validatePassword = function (password, callback) {
     });
 };
 
+hikeSchema.methods.serialize = function() {
+    return {
+        trailName : this.trailName,
+        length : this.length,
+        location : this.location,
+        status: this.status,
+        notes: this.notes,
+        dateCompleted: this.dateCompleted,
+    };
+};
+
 const Hike = mongoose.model('Hike', hikeSchema);
 const User = mongoose.model('User', userSchema);
 

@@ -1,6 +1,16 @@
+//assign active user for user interactions
 let activeUser = '';
 
 // api calls
+
+//fading messages to display alerts and errors
+function displayError(message) {
+    $(".error-message span").html(message);
+    $(".error-message").fadeIn();
+    $(".error-message").fadeOut(10000);
+};
+
+//create new user
 function createUser(user) {
     $.ajax({
             url: "http://localhost:8080/users/create",
@@ -10,6 +20,7 @@ function createUser(user) {
             contentType: "application/json"
         })
         .done(function (results) {
+            // assign active user for further interactions
             activeUser = results;
             search();
         })
@@ -17,9 +28,11 @@ function createUser(user) {
             console.log(jxhqr);
             console.log(error);
             console.log(errorThrown);
+            displayError('Oops! Something went wrong')
         })
 }
 
+//login returning user
 function loginUser(user) {
     $.ajax({
             url: "http://localhost:8080/users/login",
@@ -29,16 +42,22 @@ function loginUser(user) {
             contentType: "application/json"
         })
         .done(function (results) {
+            //assign active user for furhter interactions
             activeUser = results;
-            search();
+            //see user's trips
+            getTrip(activeUser);
+            //show user trips
+            myTrips();
         })
         .fail(function (jxhqr, error, errorThrown) {
             console.log(jxhqr);
             console.log(error);
-            console.log(errorThrown)
+            console.log(errorThrown);
+            displayError('Oops! Something went wrong')
         })
 }
 
+// get hikes based on inputed location
 function getHikes(location) {
     $.ajax({
             url: "http://localhost:8080/hikes/" + location,
@@ -46,15 +65,25 @@ function getHikes(location) {
             dataType: "json"
         })
         .done(function (results) {
-            buildHikeHtml(results);
+            //build results from external api calls
+            if (results.length == 0) {
+                let html = `<div class="search-title"><h1> No results for w${location}</h1></div>`
+                $('.search-results').append(html)
+            } else if (results.length > 0) {
+                buildHikeHtml(results);
+            }
         })
         .fail(function (jxhqr, error, errorThrown) {
             console.log(jxhqr);
             console.log(error);
-            console.log(errorThrown)
+            console.log(errorThrown);
+            let html = `<h1> No results for${location}</h1>`
+            $('.search-title').append(html)
         })
 }
 
+
+//add hikes to list
 function addHike(hikeInfo) {
     $.ajax({
             url: "http://localhost:8080/hikes/create-new",
@@ -64,8 +93,8 @@ function addHike(hikeInfo) {
             contentType: 'application/json'
         })
         .done(function (results) {
-            console.log(results);
-            alert(results);
+            //alert that the hike has been added
+            displayError(results);
         })
         .fail(function (jxhqr, error, errorThrown) {
             console.log(jxhqr);
@@ -74,6 +103,7 @@ function addHike(hikeInfo) {
         })
 }
 
+//get saved information by user
 function getTrip(user) {
     $.ajax({
             url: "http://localhost:8080/trips/" + user,
@@ -81,6 +111,7 @@ function getTrip(user) {
             dataType: "json",
         })
         .done(function (results) {
+            //build results page
             buildTripHtml(results)
         })
         .fail(function (jxhqr, error, errorThrown) {
@@ -90,12 +121,64 @@ function getTrip(user) {
         })
 }
 
+
+//update save information
+function updateTrip(id, data, returnUpdate) {
+    $.ajax({
+            url: "http://localhost:8080/trips/update/" + id,
+            type: "PUT",
+            dataType: "json",
+            data: JSON.stringify(data),
+            contentType: "application/json"
+        })
+        .done(function (results) {
+            //return updated informatiion
+            buildUpdateReturn(results, returnUpdate);
+            displayError('Trip Updated!')
+        })
+        .fail(function (jxhqr, error, errorThrown) {
+            console.log(jxhqr);
+            console.log(error);
+            console.log(errorThrown);
+        })
+}
+
+//remove hiking trip from list
+function deleteTrip(id) {
+    $.ajax({
+            url: "http://localhost:8080/trips/delete/" + id,
+            type: "DELETE",
+            dataType: "json"
+        })
+        .done(function (results) {
+            //return updated list of trips that are saved by user and rebuild with updated info
+            $('.trips-list').empty();
+            getTrip(activeUser);
+        })
+        .fail(function (jxhqr, error, errorThrown) {
+            console.log(jxhqr);
+            console.log(error);
+            console.log(errorThrown);
+            displayError('Oops! Something went wrong')
+        })
+}
+
+
+//build results from search data
 function buildHikeHtml(data) {
-    let htmlOutput = '';
+    let htmlOutput = '<div class="search-title"><h1> Hike Results</h1></div>';
 
     data.forEach(function (value, index) {
+        let background = '';
+
+        if (value.imgMedium == '') {
+            background = `style="background-image: url('denise-bossarte-263147.jpg')"`
+        } else {
+            background = `style="background-image: url('${value.imgMedium}')"`
+        }
+
         htmlOutput += `<div class="hike">`
-        htmlOutput += `<div class="hike-img-text" id="img${index}" style="background-image: url('${value.imgMedium}')">`
+        htmlOutput += `<div class="hike-img-text" id="img${index}" ${background}>`
         htmlOutput += `<div class="text-content">`
         htmlOutput += `<p><span class="trail-name">${value.name}</span><br>`
         htmlOutput += `Length :<span class="trail-length">${value.length}</span><br>`
@@ -116,10 +199,12 @@ function buildHikeHtml(data) {
     $('.search-results').show();
 }
 
+//build results from saved trips
 function buildTripHtml(data) {
     let htmlOutput = ''
 
     data.forEach(function (value, index) {
+
         let status = '';
         let dateCompleted = ''
 
@@ -132,10 +217,10 @@ function buildTripHtml(data) {
         if (!value.dateCompleted) {
             dateCompleted = 'Not Yet'
         } else {
-            dateCompleted = value.dateCompleted
+            dateCompleted = buildDate(value.dateCompleted)
         }
 
-        htmlOutput += `<button class="accordion"><i class="fa fa-chevron-down" aria-hidden="true"></i> ${value.trailName} | ${value.location} <span class="right"> ${dateCompleted} </span></button>`
+        htmlOutput += `<button class="accordion"><i class="fa fa-chevron-down" aria-hidden="true"></i> ${value.trailName} | ${value.location} <span class="right"> ${dateCompleted} </span></button><i class="fa fa-minus-circle" aria-hidden="true"></i>`
         htmlOutput += `<div class="panel" id= ${value._id}>`
         htmlOutput += `<div class="hike-trips individual-hike">`
         htmlOutput += `<div class="hike-img-text" style="background-image: url('${value.img}')">`
@@ -148,32 +233,82 @@ function buildTripHtml(data) {
         htmlOutput += `<p> <span class="heavy">Trail : </span> ${value.trailName} <br>`
         htmlOutput += `<span class="heavy"> Length : </span>${value.length} <br>`
         htmlOutput += `<span class="heavy">Location : </span> ${value.location}<br>`
-        htmlOutput += `<div class="info-to-update>`
         htmlOutput += `<span class="heavy update-status">Status : </span>${status} <br>`
-        htmlOutput += `<span class="heavy update-complete">Date Completed : </span>${dateCompleted}<br>`
-        htmlOutput += `<span class="heavy update-notes">Notes : </span> ${value.notes}</p>`
+        htmlOutput += `<span class="heavy">Date Completed : </span><span class="update-complete">${dateCompleted}</span><br>`
+        htmlOutput += `<span class="heavy">Notes : </span> <span class="update-notes">${value.notes}</span></p>`
         htmlOutput += `<button class="update-hike">Update Hike</button>`
-        htmlOutput += `</div></div></div></div></div>`
+        htmlOutput += `</div></div></div></div>`
+
+        console.log(value.img)
     })
+
     $('.trips-list').append(htmlOutput);
 }
 
-function buildUpdateHtml(id) {
 
+//build form to update individual trip data
+function buildUpdateHtml(id, notes, date) {
 
     let htmlOutput = ''
 
     htmlOutput += `<form id=${id} class='form-update-hike'>`
-    htmlOutput += `<input type="radio" name="status" value="false" id ="notComplete'> <label for="notComplete"> Haven't Hiked It </label><br>`
-    htmlOutput += `<input type="radio" name="status" value="true" id="completed"> <label for="completed"> Hiked It </label><br>`
-    htmlOutput += `Date Completed :<input type="date" name="dateCompleted"><br>`
-    htmlOutput += `<textarea>Notes</textarea><br>`
+    htmlOutput += `<input type="radio" name="status" value=false id ="notComplete' required> <label for="notComplete"> Haven't Hiked It </label><br>`
+    htmlOutput += `<input type="radio" name="status" value=true id="completed"> <label for="completed"> Hiked It </label><br>`
+    htmlOutput += `Date Completed :<input type="date" name="dateCompleted" value="${date}"><br>`
+    htmlOutput += `<textarea>${notes}</textarea><br>`
     htmlOutput += `<button class="update-hike-form-button">Update Hike</button>`
     htmlOutput += `</form>`
 
     return htmlOutput
 }
 
+//when updated build updated data
+function buildUpdateReturn(value, returnUpdate) {
+    returnUpdate.empty();
+
+    let htmlOutput = ''
+    let formatDate = buildDate(value.dateCompleted)
+    let status = ''
+
+    if (!value.status) {
+        status = "Haven't Hiked It"
+    } else {
+        status = 'Completed'
+    }
+
+    htmlOutput += `<div class="hike-notes">`
+    htmlOutput += `<p> <span class="heavy">Trail : </span> ${value.trailName} <br>`
+    htmlOutput += `<span class="heavy"> Length : </span>${value.length} <br>`
+    htmlOutput += `<span class="heavy">Location : </span> ${value.location}<br>`
+    htmlOutput += `<span class="heavy update-status">Status : </span>${status} <br>`
+    htmlOutput += `<span class="heavy">Date Completed : </span><span class="update-complete">${formatDate}</span><br>`
+    htmlOutput += `<span class="heavy">Notes : </span><span class="update-notes">${value.notes}</span></p>`
+    htmlOutput += `<button class="update-hike">Update Hike</button>`
+    htmlOutput += `</div>`
+
+    returnUpdate.append(htmlOutput);
+}
+
+//
+function buildDate(date) {
+
+    let returnDate
+
+    returnDate = new Date(date);
+    year = returnDate.getFullYear();
+    month = returnDate.getMonth() + 1;
+    dt = returnDate.getDate();
+
+    if (dt < 10) {
+        dt = '0' + dt;
+    }
+    if (month < 10) {
+        month = '0' + month;
+    }
+    returnDate = year + '-' + month + '-' + dt;
+
+    return returnDate;
+}
 
 
 // page manipulation
@@ -183,6 +318,12 @@ function frontPage() {
     $('.search-input').hide();
     $('.search-results').hide();
     $('.my-trips').hide();
+    $('.nav-signout').hide();
+    $('.nav-trips').hide();
+    $('.nav-search').hide();
+    $('.nav-signout').hide();
+    $('.my-trips').hide();
+
 }
 
 function login() {
@@ -194,6 +335,17 @@ function login() {
     $('.returning-user').hide();
 }
 
+function returningUser() {
+    $('.header-image').show();
+    $('.header-intro').show();
+    $('.returning-user').show();
+    $('.create-new').hide();
+    $('.search-input').hide();
+    $('.header-text').hide();
+    $('.search-results').hide();
+    $('.my-trips').hide();
+}
+
 function search() {
     $('.header-intro').show();
     $('.search-input').show();
@@ -203,25 +355,35 @@ function search() {
     $('.search-results').hide();
     $('.returning-user').hide();
     $('.create-new').hide();
+    $('.nav-login').hide();
+    $('.nav-sign-up').hide();
+    $('.nav-signout').show();
+    $('.nav-trips').show();
+    $('.nav-demo').hide();
+    $('.nav-search').show();
+    $('.nav-signout').show();
 
 }
 
 function myTrips() {
     $('.my-trips').show();
+    $('.trips-list').show();
     $('.header-intro').hide();
     $('.search-input').hide();
     $('.header-text').hide();
     $('.search-results').hide();
     $('.header-image').hide();
+    $('.nav-login').hide();
+    $('.nav-sign-up').hide();
+    $('.nav-trips').show();
+    $('.nav-demo').hide();
+    $('.nav-search').show();
+    $('.nav-signout').show();
 }
 
 $(document).ready(function () {
     frontPage();
-
-
-
-    $('.search-results').hide();
-    $('.my-trips').hide();
+    $('.error-message').hide();
 
     // nav bar scroll
     $(document).scroll(function () {
@@ -229,26 +391,7 @@ $(document).ready(function () {
         $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
     });
 
-    $('.search-results').on('click', '.add-link', function () {
-        let newHike = {}
-        let hikeImage;
-
-        newHike.trailName = $(this).closest('.hike').find('.trail-name').text();
-        newHike.length = $(this).closest('.hike').find('.trail-length').text();
-        hikeImage = $(this).closest('.hike-img-text').css('background-image');
-        hikeImage = hikeImage.replace('url("', '').replace('")', '')
-        newHike.img = hikeImage
-        newHike.location = $(this).closest('.hike').find('.trail-location').text();
-        newHike.url = $(this).closest('.more-info').find('a').attr('href');
-        newHike.googleMap = $(this).closest('.hike').find('.google-maps').find('iframe').attr('src');
-        newHike.dateCompleted = '';
-        newHike.notes = '';
-        newHike.status = "Haven't Done";
-        newHike.account = activeUser;
-
-        addHike(newHike);
-    })
-
+    //create new user
     $('.form-create-new').on('submit', function () {
         event.preventDefault();
         let form = document.body.querySelector('.form-create-new');
@@ -270,10 +413,15 @@ $(document).ready(function () {
                 username: user,
                 password: password
             }
-            createUser(newUser)
+            createUser(newUser);
+
+            $('.form-create-new [name=username]').val('');
+            $('.form-create-new [name=password]').val('');
+            $('.form-create-new [name=confirmPassword]').val('');
         }
     })
 
+    //login returning user
     $('.form-returning-user').on('submit', function () {
         event.preventDefault();
         let form = document.body.querySelector('.form-returning-user');
@@ -289,81 +437,125 @@ $(document).ready(function () {
             password: password
         }
         loginUser(returingUser);
+
+        $('.form-returning-user [name=username]').val('');
+        $('.form-returning-user [name=password]').val('');
     })
 
-
-
+    //get hikes from external api
     $('.search-location').on('submit', function () {
         event.preventDefault();
         let locationValue = encodeURI($('#location').val());
+
+        $('.search-results').empty();
+
         getHikes(locationValue);
+
+        $('#location').val('');
+
         $('.search-input').hide();
         $('.header-intro').hide();
         $('.header-image').hide();
     })
 
+    //adding hike from search results
+    $('.search-results').on('click', '.add-link', function () {
+        let newHike = {}
+        let hikeImage;
+
+        newHike.trailName = $(this).closest('.hike').find('.trail-name').text();
+        newHike.length = $(this).closest('.hike').find('.trail-length').text();
+        hikeImage = $(this).closest('.hike-img-text').css('background-image');
+        hikeImage = hikeImage.replace('url("', '').replace('")', '')
+        newHike.img = hikeImage
+        newHike.location = $(this).closest('.hike').find('.trail-location').text();
+        newHike.url = $(this).closest('.more-info').find('a').attr('href');
+        newHike.googleMap = $(this).closest('.hike').find('.google-maps').find('iframe').attr('src');
+        newHike.dateCompleted = '';
+        newHike.notes = '';
+        newHike.status = false;
+        newHike.account = activeUser;
+
+        addHike(newHike);
+    })
+
+    //navigation page manipulation
     $('.nav-sign-up').on('click', function () {
         login();
     })
 
     $('.nav-demo').on('click', function () {
         search();
+        activeUser = 'demo';
     })
 
     $('.nav-login').on('click', function () {
-        $('.header-image').show();
-        $('.header-intro').show();
-        $('.returning-user').show();
-        $('.create-new').hide();
-        $('.search-input').hide();
-        $('.header-text').hide();
-        $('.search-results').hide();
-        $('.my-trips').hide();
-    })
-
-    $('.nav-trips').on('click', function () {
-        myTrips();
-        $('.trips-list').empty();
-        console.log(activeUser)
-        getTrip(activeUser)
-        $('.update-form').hide();
-
+        returningUser();
     })
 
     $('.nav-search').on('click', function () {
         search();
     })
 
+    $('.nav-signout').on('click', function () {
+        location.reload();
+    })
+
+    //go to my my trips
+
+    $('.nav-trips').on('click', function () {
+        myTrips();
+        $('.trips-list').empty();
+        getTrip(activeUser)
+    })
+
+    //update hike page manipulation
     $('.update-hike').on('click', function () {
         $('.update-form').show();
         $('.hike-notes').hide()
     })
 
+    //expand trips list toggles
     $('.trips-list').on('click', '.accordion', function () {
         this.classList.toggle("active");
-
-        let panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
+        $(this).next().next().toggle();
     })
 
     $('.trips-list').on('click', '.update-hike', function () {
+
         let updateId = $(this).closest('.panel').attr('id')
-        let notes = $(this).closest
-        let divUpdate = $(this).closest('.info-to-update')
-        $(this).closest('.info-to-update').empty();
-        let updateForm = buildUpdateHtml(updateId)
+        let notes = $(this).closest('.panel').find('.update-notes').text();
+        let date = $(this).closest('.panel').find('.update-complete').text();
+        if (date == "Not Yet" || date == '') {
+            date = buildDate(new Date())
+        }
+        let divUpdate = $(this).closest('.hike-notes')
+        $(this).closest('.hike-notes').empty();
+        let updateForm = buildUpdateHtml(updateId, notes, date)
         divUpdate.append(updateForm);
 
     })
 
     $('.trips-list').on('submit', '.form-update-hike', function () {
         event.preventDefault();
-        let id = $(this).attr('id')
-        console.log('fired' + id)
+
+        let updateHikeInfo = {};
+        let id = $(this).attr('id');
+        let returnUpdate = $(this).closest('.hike-notes');
+
+        //create updated object
+        updateHikeInfo.id = id
+        updateHikeInfo.status = $('.form-update-hike [name=status]:checked').val();
+        updateHikeInfo.dateCompleted = $('.form-update-hike [name=dateCompleted]').val();
+        updateHikeInfo.notes = $('.form-update-hike textarea').val();
+
+        //reach out and update information
+        updateTrip(id, updateHikeInfo, returnUpdate);
+    })
+
+    $('.trips-list').on('click', '.fa-minus-circle', function () {
+        let item = $(this).next().attr('id')
+        deleteTrip(item);
     })
 
 

@@ -56,6 +56,8 @@ function closeServer() {
     }));
 }
 
+
+// ---------------- EXTERNAL API CALL FUNCTIONS -----------------------------------------------------
 // exteral API call functions
 
 //get coordinates
@@ -71,7 +73,6 @@ let getCoordinates = function (location) {
             'Port': 443
         }
     };
-
     return new Promise(function (resolve, reject) {
         https.get(options, function (res) {
             let body = '';
@@ -81,8 +82,16 @@ let getCoordinates = function (location) {
             });
             res.on('end', function () {
                 body = JSON.parse(body);
-                location = body.results[0].geometry.location;
-                resolve(getHikes(location));
+                if (body.status == 'ZERO_RESULTS') {
+                    let results = {
+                        message: 'Not found'
+                    }
+                    resolve(results)
+                } else {
+                    location = body.results[0].geometry.location;
+                    resolve(getHikes(location))
+                }
+
             })
 
         })
@@ -116,6 +125,8 @@ let getHikes = function (coordinates) {
     })
 }
 
+
+// ---------------- SIGN IN / CREATE USER -----------------------------------------------------
 // create new user
 app.post('/users/create', (req, res) => {
     let username = req.body.username;
@@ -194,7 +205,7 @@ app.post('/users/login', (req, res) => {
         })
 })
 
-
+// ---------------- HIKE DATA ENDPOINTS -----------------------------------------------------
 
 app.get('/hikes/:location', (req, res) => {
     let location = encodeURI(req.params.location);
@@ -206,13 +217,11 @@ app.get('/hikes/:location', (req, res) => {
 
 app.get('/trips/:user', (req, res) => {
     let user = req.params.user
-    console.log(user)
     Hike
         .find({
             'account': user
         })
         .then(function (results) {
-            console.log(results)
             res.json(results)
         })
         .catch(err => {
@@ -225,7 +234,6 @@ app.get('/trips/:user', (req, res) => {
 
 // create new hike
 app.post('/hikes/create-new', (req, res) => {
-    console.log(req.body)
     Hike
         .create({
             trailName: req.body.trailName,
@@ -248,6 +256,54 @@ app.post('/hikes/create-new', (req, res) => {
         });
 
 });
+
+
+app.put('/trips/update/:id', (req, res) => {
+    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+        res.status(400).json({
+            error: 'Request path id and request body id values must match'
+        });
+    }
+
+    const updated = {};
+    const updateableFields = ['status', 'dateCompleted', 'notes'];
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+            updated[field] = req.body[field];
+        }
+    });
+
+    Hike
+        .findByIdAndUpdate(req.params.id, {
+            $set: updated
+        }, {
+            new: true
+        }, function (err, results) {
+            if (err) {
+                res.status(500).json({
+                    message: 'Something went wrong'
+                })
+            }
+            res.json(results.serialize())
+        });
+
+});
+
+app.delete('/trips/delete/:id', (req, res) => {
+    let item = req.params.id
+    Hike
+        .remove({
+            _id: item
+        }, function (err) {
+            if (err) {
+                console.log(err)
+            } else {
+                res.status(204).end();
+            }
+        });
+});
+
+
 
 app.use('*', (req, res) => {
     res.status(404).json({
