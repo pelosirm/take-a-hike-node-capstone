@@ -149,7 +149,7 @@ function updateTrip(id, data, returnUpdate) {
 //remove hiking trip from list
 function deleteTrip(id) {
     $.ajax({
-            url: "https://take-a-hike-node-capstone.herokuapp.com/" + id,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/delete/" + id,
             type: "DELETE",
             dataType: "json"
         })
@@ -553,8 +553,16 @@ $(document).ready(function () {
         //create updated object
         updateHikeInfo.id = id
         updateHikeInfo.status = $('.form-update-hike [name=status]:checked').val();
-        updateHikeInfo.dateCompleted = $('.form-update-hike [name=dateCompleted]').val();
-        updateHikeInfo.notes = $('.form-update-hike textarea').val();
+
+        if (updateHikeInfo.status == false) {
+            updateHikeInfo.dateCompleted = ''
+            updateHikeInfo.notes = ''
+        } else {
+            updateHikeInfo.dateCompleted = $('.form-update-hike [name=dateCompleted]').val();
+            updateHikeInfo.notes = $('.form-update-hike textarea').val();
+        }
+
+
 
         //reach out and update information
         updateTrip(id, updateHikeInfo, returnUpdate);
