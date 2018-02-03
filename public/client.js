@@ -377,6 +377,7 @@ $(document).ready(function () {
 
     //create new user
     $('.form-create-new').on('submit', function (event) {
+
         event.preventDefault();
         let form = document.body.querySelector('.form-create-new');
 
@@ -389,10 +390,10 @@ $(document).ready(function () {
         let confirmPassword = $('.form-create-new [name=confirmPassword]').val();
 
         if (password !== confirmPassword) {
-            event.preventDefault();
+
             displayError('Passwords must match!')
         } else {
-            event.preventDefault();
+
             let newUser = {
                 username: user,
                 password: password
