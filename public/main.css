@@ -60,19 +60,23 @@ html {
     top: 190px;
     left: 25%;
     width: 50%;
-    height: 50%;
+    height: 60%;
     background-color: rgba(248, 248, 248, 0.9);
     border-radius: 25px;
     font-family: 'Barlow', sans-serif;
 }
 
 .returning-user {
-    height: 48%
+    height: 60%
 }
 
 .login p {
     text-align: center;
-    padding-top: 30px;
+    color: black;
+}
+
+.login a {
+    font-weight: 500;
 }
 
 .demo-user {
