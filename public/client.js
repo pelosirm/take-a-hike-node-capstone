@@ -376,7 +376,7 @@ $(document).ready(function () {
     });
 
     //create new user
-    $('.form-create-new').on('submit', function () {
+    $('.form-create-new').on('submit', function (event) {
         event.preventDefault();
         let form = document.body.querySelector('.form-create-new');
 
@@ -427,7 +427,7 @@ $(document).ready(function () {
     })
 
     //get hikes from external api
-    $('.search-location').on('submit', function () {
+    $('.search-location').on('submit', function (event) {
         event.preventDefault();
         let locationValue = encodeURI($('#location').val());
 
@@ -543,7 +543,7 @@ $(document).ready(function () {
 
     })
 
-    $('.trips-list').on('submit', '.form-update-hike', function () {
+    $('.trips-list').on('submit', '.form-update-hike', function (event) {
         event.preventDefault();
 
         let updateHikeInfo = {};
