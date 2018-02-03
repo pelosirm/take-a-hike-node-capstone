@@ -224,7 +224,6 @@ app.post('/users/login', (req, res) => {
 
 //get hikes given user input
 app.get('/hikes/:location', (req, res) => {
-    console.log(req)
     const retrieveCoordinates = getCoordinates(encodeURI(req.params.location));
 
     retrieveCoordinates.on('end', function (item) {

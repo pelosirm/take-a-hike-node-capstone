@@ -68,16 +68,18 @@ html {
 }
 
 .returning-user {
-    height: 46%
+    height: 48%
 }
 
 .login p {
     text-align: center;
+    padding-top: 30px;
 }
 
 .demo-user {
     font-size: 16px;
     color: red;
+    padding-top: 0px !important;
 }
 
 legend {
@@ -257,6 +259,16 @@ a:hover {
     margin-top: 10%;
 }
 
+.text-content {
+    margin-left: 5%
+}
+
+.text-content p {
+    color: white;
+    font-weight: 500;
+    text-shadow: 0px 0px 3px #000;
+}
+
 .more-info {
     text-align: center;
     position: absolute;
@@ -275,16 +287,6 @@ a:hover {
 
 .more-info a:hover {
     color: orange;
-}
-
-
-.text-content {
-    margin-left: 5%
-}
-
-.text-content p {
-    color: white;
-    font-weight: 500;
 }
 
 .hike-name {

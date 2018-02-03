@@ -3,6 +3,14 @@
 Take a hike is a full stack web app that allows you to search for hikes based on the area that you are traveling to.
 ## Screenshots
 
+![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/front-page.png)
+
+![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/search.png)
+
+![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/hike-results.png)
+
+![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/hike-info.png)
+
 ## Use Case
 Take a hike is for the traveling hiker, it allows the user to search for hikes based on location and add store them to their upcoming trip.
 
@@ -40,7 +48,9 @@ Take a hike is for the traveling hiker, it allows the user to search for hikes b
     <li>Mongoose</li>
     <li>mLab database</li>
     <li><a href="https://mochajs.org/">Mocha</a> and <a href="http://chaijs.com/">Chai</a> for testing</li>
+
 </ul>
+<p>The app uses AJAX JSON calls to the Hiking Project API to return the hike search results.</p>
 <h3>Responsive</h3>
 <ul>
     <li>The app is responsive and optimized for both desktop and mobile viewing and use.</li>
@@ -50,9 +60,10 @@ Take a hike is for the traveling hiker, it allows the user to search for hikes b
     <li>User passwords are encrypted using <a href="https://github.com/dcodeIO/bcrypt.js">bcrypt.js</a>.</li>
 </ul>
 
-## API Documentation
-API endpoints for the back end include:
-
-
 ## Development Roadmap
 Planned additional features and improvements will allow users to:
+
+<ul>
+    <li>Be able to add additional info with hike, pictures etc</li>
+    <li>Add more conditional information around the places visiting ie weather and local campgrounds</li>
+</ul>
