@@ -128,7 +128,7 @@ function getTrip(user) {
 //update save information
 function updateTrip(id, data, returnUpdate) {
     $.ajax({
-            url: "https://take-a-hike-node-capstone.herokuapp.com/trips/update" + id,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/trips/update/" + id,
             type: "PUT",
             dataType: "json",
             data: JSON.stringify(data),
