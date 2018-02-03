@@ -39,7 +39,7 @@ html {
     right: 0;
     bottom: 0;
     background-size: cover;
-    background: url("galen-crout-78522.jpg") no-repeat center center scroll;
+    background: url("./img/galen-crout-78522.jpg") no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -249,7 +249,7 @@ a:hover {
     width: 50%;
     height: 300px;
     margin-bottom: 10px;
-    background-image: url("mike-wilson-183196.jpg");
+    background-image: url("./img/mike-wilson-183196.jpg");
     background-size: cover;
 }
 
