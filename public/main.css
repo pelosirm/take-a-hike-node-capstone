@@ -68,11 +68,16 @@ html {
 }
 
 .returning-user {
-    height: 40%
+    height: 46%
 }
 
 .login p {
     text-align: center;
+}
+
+.demo-user {
+    font-size: 16px;
+    color: red;
 }
 
 legend {

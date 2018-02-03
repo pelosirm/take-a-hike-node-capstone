@@ -64,6 +64,8 @@ function closeServer() {
 
 let getCoordinates = function (location) {
 
+    let emitter = new events.EventEmitter();
+
     let options = {
         host: 'maps.googleapis.com',
         path: '/maps/api/geocode/json?address=' + location + '&key=AIzaSyCVzoNkzkIo8VFN-_0dI0sIs5JuED8EPpE',
@@ -73,33 +75,40 @@ let getCoordinates = function (location) {
             'Port': 443
         }
     };
-    return new Promise(function (resolve, reject) {
-        https.get(options, function (res) {
-            let body = '';
-            let location = {}
-            res.on('data', function (chunk) {
-                body += chunk;
-            });
-            res.on('end', function () {
-                body = JSON.parse(body);
-                if (body.status == 'ZERO_RESULTS') {
-                    let results = {
-                        message: 'Not found'
-                    }
-                    resolve(results)
-                } else {
-                    location = body.results[0].geometry.location;
-                    resolve(getHikes(location))
-                }
 
-            })
+    https.get(options, function (res) {
+        let body = '';
+        res.on('data', function (chunk) {
+
+            body += chunk;
 
         })
-    })
+        res.on('end', function () {
+                let results;
+                body = JSON.parse(body);
+                if (body.status == 'ZERO_RESULTS') {
+                    let message = {
+                        message: 'Not found'
+                    }
+                    results = message;
+                } else {
+                    results = body.results[0].geometry.location;
+                }
+                emitter.emit('end', results);
+            })
+            .on('error', function (e) {
+                emitter.emit('error', e)
+            });
+    });
+
+    return emitter;
 
 };
 
+
 let getHikes = function (coordinates) {
+    let emitter = new events.EventEmitter();
+
 
     let options = {
         host: 'www.hikingproject.com',
@@ -110,20 +119,25 @@ let getHikes = function (coordinates) {
             'Port': 443
         }
     };
-    return new Promise(function (resolve, reject) {
-        https.get(options, function (res) {
-            let body = '';
 
-            res.on('data', function (chunk) {
-                body += chunk;
-            });
-            res.on('end', function () {
-                body = JSON.parse(body);
-                resolve(body)
-            })
+    https.get(options, function (res) {
+        let body = '';
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+
+        res.on('end', function () {
+            var jsonFormattedResults = JSON.parse(body);
+            emitter.emit('end', jsonFormattedResults);
         })
-    })
-}
+
+    }).on('error', function (e) {
+
+        emitter.emit('error', e);
+    });
+
+    return emitter;
+};
 
 
 // ---------------- SIGN IN / CREATE USER -----------------------------------------------------
@@ -161,7 +175,7 @@ app.post('/users/create', (req, res) => {
                 }
 
                 if (item) {
-                    console.log(`User \`${username}\` created.`);
+                    //                    console.log(`User \`${username}\` created.`);
                     return res.json(username);
                 }
             })
@@ -207,14 +221,33 @@ app.post('/users/login', (req, res) => {
 
 // ---------------- HIKE DATA ENDPOINTS -----------------------------------------------------
 
+
+//get hikes given user input
 app.get('/hikes/:location', (req, res) => {
-    let location = encodeURI(req.params.location);
-    let dataPromise = getCoordinates(location);
-    dataPromise.then(function (results) {
-        res.json(results.trails)
+    console.log(req)
+    const retrieveCoordinates = getCoordinates(encodeURI(req.params.location));
+
+    retrieveCoordinates.on('end', function (item) {
+
+        let coordinates = item
+        let retrieveHikes = getHikes(coordinates)
+
+        retrieveHikes.on('end', function (hikes) {
+            res.json(hikes);
+        })
+
+        retrieveHikes.on('error', function (code) {
+            res.sendStatus(code);
+        })
     })
+
+    retrieveCoordinates.on('error', function (code) {
+        res.sendStatus(code);
+    })
+
 })
 
+// get trips by user
 app.get('/trips/:user', (req, res) => {
     let user = req.params.user
     Hike
@@ -257,7 +290,7 @@ app.post('/hikes/create-new', (req, res) => {
 
 });
 
-
+//update information for hikes
 app.put('/trips/update/:id', (req, res) => {
     if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
         res.status(400).json({
@@ -289,6 +322,7 @@ app.put('/trips/update/:id', (req, res) => {
 
 });
 
+//delete trip
 app.delete('/trips/delete/:id', (req, res) => {
     let item = req.params.id
     Hike

@@ -66,11 +66,14 @@ function getHikes(location) {
         })
         .done(function (results) {
             //build results from external api calls
-            if (results.length == 0) {
-                let html = `<div class="search-title"><h1> No results for w${location}</h1></div>`
+            let trails = results.trails
+
+            if (results.message == "No lat/lon specified") {
+                let html = `<div class="search-title"><h1> No results for ${location}</h1></div>`
                 $('.search-results').append(html)
-            } else if (results.length > 0) {
-                buildHikeHtml(results);
+                $('.search-results').show();
+            } else if (trails.length > 0) {
+                buildHikeHtml(trails);
             }
         })
         .fail(function (jxhqr, error, errorThrown) {
@@ -239,7 +242,6 @@ function buildTripHtml(data) {
         htmlOutput += `<button class="update-hike">Update Hike</button>`
         htmlOutput += `</div></div></div></div>`
 
-        console.log(value.img)
     })
 
     $('.trips-list').append(htmlOutput);
@@ -289,7 +291,7 @@ function buildUpdateReturn(value, returnUpdate) {
     returnUpdate.append(htmlOutput);
 }
 
-//
+//format date for proper date display
 function buildDate(date) {
 
     let returnDate
@@ -313,39 +315,7 @@ function buildDate(date) {
 
 // page manipulation
 
-function frontPage() {
-    $('.login').hide();
-    $('.search-input').hide();
-    $('.search-results').hide();
-    $('.my-trips').hide();
-    $('.nav-signout').hide();
-    $('.nav-trips').hide();
-    $('.nav-search').hide();
-    $('.nav-signout').hide();
-    $('.my-trips').hide();
-
-}
-
-function login() {
-    $('.create-new').show();
-    $('.header-text').hide();
-    $('.search-input').hide();
-    $('.search-results').hide();
-    $('.my-trips').hide();
-    $('.returning-user').hide();
-}
-
-function returningUser() {
-    $('.header-image').show();
-    $('.header-intro').show();
-    $('.returning-user').show();
-    $('.create-new').hide();
-    $('.search-input').hide();
-    $('.header-text').hide();
-    $('.search-results').hide();
-    $('.my-trips').hide();
-}
-
+//hide for search functionality
 function search() {
     $('.header-intro').show();
     $('.search-input').show();
@@ -362,9 +332,11 @@ function search() {
     $('.nav-demo').hide();
     $('.nav-search').show();
     $('.nav-signout').show();
+    $('.demo-user').hide();
 
 }
 
+//hide info to show user trips
 function myTrips() {
     $('.my-trips').show();
     $('.trips-list').show();
@@ -379,11 +351,23 @@ function myTrips() {
     $('.nav-demo').hide();
     $('.nav-search').show();
     $('.nav-signout').show();
+    $('.demo-user').hide();
 }
 
 $(document).ready(function () {
-    frontPage();
+
+    //this is the front end page loading
+    $('.login').hide();
+    $('.search-input').hide();
+    $('.search-results').hide();
+    $('.my-trips').hide();
+    $('.nav-signout').hide();
+    $('.nav-trips').hide();
+    $('.nav-search').hide();
+    $('.nav-signout').hide();
+    $('.my-trips').hide();
     $('.error-message').hide();
+    $('.demo-user').hide();
 
     // nav bar scroll
     $(document).scroll(function () {
@@ -406,7 +390,7 @@ $(document).ready(function () {
 
         if (password !== confirmPassword) {
             event.preventDefault();
-            alert('Passwords must match!')
+            displayError('Passwords must match!')
         } else {
             event.preventDefault();
             let newUser = {
@@ -452,7 +436,6 @@ $(document).ready(function () {
         getHikes(locationValue);
 
         $('#location').val('');
-
         $('.search-input').hide();
         $('.header-intro').hide();
         $('.header-image').hide();
@@ -480,17 +463,42 @@ $(document).ready(function () {
     })
 
     //navigation page manipulation
+    //login in user
     $('.nav-sign-up').on('click', function () {
-        login();
+
+        $('.create-new').show();
+        $('.header-text').hide();
+        $('.search-input').hide();
+        $('.search-results').hide();
+        $('.my-trips').hide();
+        $('.returning-user').hide();
+        $('.demo-user').hide();
     })
 
     $('.nav-demo').on('click', function () {
-        search();
-        activeUser = 'demo';
+
+        $('.header-image').show();
+        $('.header-intro').show();
+        $('.returning-user').show();
+        $('.create-new').hide();
+        $('.search-input').hide();
+        $('.header-text').hide();
+        $('.search-results').hide();
+        $('.my-trips').hide();
+        $('.demo-user').show();
+
     })
 
     $('.nav-login').on('click', function () {
-        returningUser();
+        $('.header-image').show();
+        $('.header-intro').show();
+        $('.returning-user').show();
+        $('.create-new').hide();
+        $('.search-input').hide();
+        $('.header-text').hide();
+        $('.search-results').hide();
+        $('.my-trips').hide();
+        $('.demo-user').hide();
     })
 
     $('.nav-search').on('click', function () {
@@ -502,7 +510,6 @@ $(document).ready(function () {
     })
 
     //go to my my trips
-
     $('.nav-trips').on('click', function () {
         myTrips();
         $('.trips-list').empty();
