@@ -406,7 +406,7 @@ $(document).ready(function () {
     })
 
     //login returning user
-    $('.form-returning-user').on('submit', function () {
+    $('.form-returning-user').on('submit', function (event) {
         event.preventDefault();
         let form = document.body.querySelector('.form-returning-user');
 
