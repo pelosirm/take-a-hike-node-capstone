@@ -13,7 +13,7 @@ function displayError(message) {
 //create new user
 function createUser(user) {
     $.ajax({
-            url: "http://localhost:8080/users/create",
+            url: "https://take-a-hike-node-capstone.herokuapp.com/users/create",
             type: "POST",
             dateType: "json",
             data: JSON.stringify(user),
@@ -35,7 +35,7 @@ function createUser(user) {
 //login returning user
 function loginUser(user) {
     $.ajax({
-            url: "http://localhost:8080/users/login",
+            url: "https://take-a-hike-node-capstone.herokuapp.com/users/login",
             type: "POST",
             dataType: "json",
             data: JSON.stringify(user),
@@ -60,7 +60,7 @@ function loginUser(user) {
 // get hikes based on inputed location
 function getHikes(location) {
     $.ajax({
-            url: "http://localhost:8080/hikes/" + location,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/hikes/" + location,
             type: "GET",
             dataType: "json"
         })
@@ -89,7 +89,7 @@ function getHikes(location) {
 //add hikes to list
 function addHike(hikeInfo) {
     $.ajax({
-            url: "http://localhost:8080/hikes/create-new",
+            url: "https://take-a-hike-node-capstone.herokuapp.com/hikes/create-new",
             type: "POST",
             dataType: "json",
             data: JSON.stringify(hikeInfo),
@@ -109,7 +109,7 @@ function addHike(hikeInfo) {
 //get saved information by user
 function getTrip(user) {
     $.ajax({
-            url: "http://localhost:8080/trips/" + user,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/trips/" + user,
             type: "GET",
             dataType: "json",
         })
@@ -128,7 +128,7 @@ function getTrip(user) {
 //update save information
 function updateTrip(id, data, returnUpdate) {
     $.ajax({
-            url: "http://localhost:8080/trips/update/" + id,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/" + id,
             type: "PUT",
             dataType: "json",
             data: JSON.stringify(data),
@@ -149,7 +149,7 @@ function updateTrip(id, data, returnUpdate) {
 //remove hiking trip from list
 function deleteTrip(id) {
     $.ajax({
-            url: "http://localhost:8080/trips/delete/" + id,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/" + id,
             type: "DELETE",
             dataType: "json"
         })
