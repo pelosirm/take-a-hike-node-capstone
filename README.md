@@ -27,6 +27,7 @@ Take a hike is for the traveling hiker, it allows the user to search for hikes b
 
 ## Working Prototype
 
+Find the working protype here: https://take-a-hike-node-capstone.herokuapp.com
 
 ## Functionality
 * When the user sets up for an account, they are able to search hikes by location and save them as they are planning out their trips.
