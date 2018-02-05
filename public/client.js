@@ -149,7 +149,7 @@ function updateTrip(id, data, returnUpdate) {
 //remove hiking trip from list
 function deleteTrip(id) {
     $.ajax({
-            url: "https://take-a-hike-node-capstone.herokuapp.com/delete/" + id,
+            url: "https://take-a-hike-node-capstone.herokuapp.com/trips/delete/" + id,
             type: "DELETE",
             dataType: "json"
         })
