@@ -3,7 +3,7 @@
 Take a hike is a full stack web app that allows you to search for hikes based on the area that you are traveling to.
 ## Screenshots
 
-![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/front-page.png)
+![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/front_page.png)
 
 ![alt text](https://github.com/pelosirm/take-a-hike-node-capstone/blob/master/readmeImg/search.png)
 
